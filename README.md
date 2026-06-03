@@ -1,14 +1,14 @@
 This README will function as a to-do list of current things that need to be done.
 
-<p>[ ] Project setup</p>
+<p>[X] Project setup</p>
 
-<p>[ ] Database setup</p>
+<p>[X] Database setup</p>
 
-<p>[ ] User registration</p>
+<p>[X] User registration</p>
 
-<p>[ ] User login</p>
+<p>[X] User login</p>
 
-<p>[ ] Home page</p>
+<p>[X] Home page</p>
 
 <p>To run doom.py (which is the main executable here):
     <ol>
