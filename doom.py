@@ -9,7 +9,7 @@ path = os.path.dirname(__file__)
 
 @app.route('/')
 def todo():
-   rFile = open(path+"\\todo.txt", "r")
+   rFile = open(path+"\\database.txt", "r")
    rData = rFile.read()
    return render_template('todo_list.html', data=rData, redir=0)
 
@@ -22,39 +22,13 @@ def add():
    except ValueError or TypeError:
       return render_template('todo_list.html', data="", redir=1) #automatically returns if invalid
 
-   finalID = int(open(path+"\\todo.txt", "r").read().split("\n")[-2].split(" ")[0]) #gets int id of last task in todo.txt
+   finalID = int(open(path+"\\database.txt", "r").read().split("\n")[-2].split(" ")[0]) #gets int id of last task in database.txt
 
-   aFile = open(path+"\\todo.txt", "a")
+   aFile = open(path+"\\database.txt", "a")
    aFile.write(str(finalID+1)+" "+str(datetime.datetime.now()).split(" ")[0]+" ") #nextID, CreationTimestamp (only date, not time)
    aFile.write("C ") #CompetionTimestamp: C as a placeholder for later replacement, and to indicate incomplete
    aFile.write(str(dueDate)+" "+str(description)+"\n") #DueDate, Description
 
-   return render_template('todo_list.html', data="", redir=1)
-
-@app.route('/mark_complete/<task_id>')
-def complete(task_id):
-   rFile = open(path+"\\todo.txt", "r")
-   lines = rFile.read().split("\n")
-   wFile = open(path+"\\todo.txt", "w")
-   for l in range(len(lines)-1): #for all tasks in todo.txt
-      line = lines[l]
-      if line.split(" ")[0] == task_id: #if id matches task_id
-         wFile.write(line.replace("C", str(datetime.datetime.now()).split(" ")[0], 1)); #change C to current date
-      else:
-         wFile.write(line) #else, just keep the task the same
-      wFile.write("\n");
-   
-   return render_template('todo_list.html', data="", redir=1)
-
-@app.route('/delete_task/<task_id>')
-def delete(task_id):
-   rFile = open(path+"\\todo.txt", "r")
-   lines = rFile.read().split("\n")
-   wFile = open(path+"\\todo.txt", "w")
-   for l in range(len(lines)-1): #for all tasks in todo.txt
-      if lines[l].split(" ")[0] != task_id: #if id doesn't match task_id, keep task in file
-         wFile.write(lines[l]+"\n"); #else, task will be removed from file
-   
    return render_template('todo_list.html', data="", redir=1)
 
 @app.errorhandler(404)
