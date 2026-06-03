@@ -24,3 +24,4 @@ This README will function as a to-do list of current things that need to be done
         <li>Run 'python doom.py'</li>
     </ol>
 </p>
+<p>To update files, use git add, or just re-upload them here</p>
