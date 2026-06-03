@@ -1,0 +1,31 @@
+<head>
+   <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<table>
+   <tr>
+      <td><a class="header" href='../'>Home</a></td>
+   </tr>
+</table>
+
+<div class="outer">
+   <h2>Logout:</h2>
+   <form method="post">
+      <input type="submit" value="Logout">
+   </form>
+   <p>{{verify}}</p>
+</div>
+
+<script>
+   if('{{verify|tojson}}' != "\"\"")
+   {
+      location.replace("/"); //if logged out, redirect to Home page
+   }
+   else
+   {
+      document.querySelector("tr").innerHTML += "<td            ><a class=\"header\"   href='../showAndTell'>Show & Tell</a></td>";
+      document.querySelector("tr").innerHTML += "<td class=\"s\"><a class=\"header-s\" href='../logout'     >Logout</a></td>";
+      document.querySelector("tr").innerHTML += "<td            ><a class=\"header\"   href='../pwchange'   >Password Change</a></td>";
+   }
+   document.querySelector("tr").innerHTML += "<td class=\"l\">{{name}}</td>";
+</script>

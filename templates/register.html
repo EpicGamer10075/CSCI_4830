@@ -1,0 +1,28 @@
+<head>
+   <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<table>
+   <tr>
+      <td          ><a class="header"   href='../'        >Home</a></td>
+      <td class="s"><a class="header-s" href='../register'>Register</a></td>
+      <td          ><a class="header"   href='../login'   >Login</a></td>
+      <td          ><a class="header"   href='../pwreset' >Password Reset</a></td>
+      <td class="l">{{name}}</td>
+   </tr>
+</table>
+
+<div class="outer">
+   <h2>Create user:</h2>
+   <form method="post">
+      <input type="text" name="username" id="username" placeholder="Username" required><br>
+      <input type="password" name="password" id="password" placeholder="Password" required><br>
+      <input type="submit">
+   </form>
+   <p>{{verify}}</p>
+</div>
+
+<script>
+   if('{{name|tojson}}' != "\"Logged Out\"")
+      location.replace("/");
+</script>
