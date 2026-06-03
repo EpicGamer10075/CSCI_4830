@@ -22,6 +22,8 @@ This README will function as a to-do list of current things that need to be done
             <li>Run command 'cd CSCI_3830'</li>
         </ul></li>
         <li>Run 'python doom.py'</li>
+        <li>There will be 2 URLs printed in the output, saying it's "* Running on [URL]"</li>
+        <li>Copy either of those URLs and put it into a web browser</li>
     </ol>
 </p>
 <p>To update files, use git add, or just re-upload them here</p>
