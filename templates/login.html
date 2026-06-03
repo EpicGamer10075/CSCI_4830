@@ -2,15 +2,7 @@
    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<table>
-   <tr>
-      <td          ><a class="header"   href='../'        >Home</a></td>
-      <td          ><a class="header"   href='../register'>Register</a></td>
-      <td class="s"><a class="header-s" href='../login'   >Login</a></td>
-      <td          ><a class="header"   href='../pwreset' >Password Reset</a></td>
-      <td class="l">{{name}}</td>
-   </tr>
-</table>
+<table><tr></tr></table>
 
 <div class="outer">
    <h2>Login:</h2>
@@ -22,7 +14,7 @@
    <p>{{verify}}</p>
 </div>
 
+<script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
 <script>
-   if('{{name|tojson}}' != "\"Logged Out\"")
-      location.replace("/");
+	getTabs('{{name|tojson}}', "n", "Login")
 </script>

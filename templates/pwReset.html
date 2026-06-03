@@ -2,11 +2,7 @@
    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<table>
-   <tr>
-      <td><a class="header" href='../'>Home</a></td>
-   </tr>
-</table>
+<table><tr></tr></table>
 
 <div class="outer">
    <h2>Reset Password:</h2>
@@ -18,16 +14,7 @@
    <p>{{verify}}</p>
 </div>
 
+<script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
 <script>
-   if('{{name|tojson}}' == "\"Logged Out\"") //if logged out, then render related links
-   {
-      document.querySelector("tr").innerHTML += "<td            ><a class=\"header\"   href='../register'>Register</a></td>";
-      document.querySelector("tr").innerHTML += "<td            ><a class=\"header\"   href='../login'   >Login</a></td>";
-      document.querySelector("tr").innerHTML += "<td class=\"s\"><a class=\"header-s\" href='../pwreset' >Password Reset</a></td>";
-   }
-   else
-   {
-      location.replace("/"); //if logged in, redirect to Home page
-   }
-   document.querySelector("tr").innerHTML += "<td class=\"l\">{{name}}</td>";
+	getTabs('{{name|tojson}}', "n", "Password Reset")
 </script>

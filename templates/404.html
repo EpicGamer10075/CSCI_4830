@@ -2,15 +2,13 @@
    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<table>
-   <tr>
-      <td          ><a class="header"   href='../'         >Home</a></td>
-      <td          ><a class="header"   href='../create'   >Create</a></td>
-      <td          ><a class="header"   href='../directory'>Directory</a></td>
-      <td class="e"></td>
-   </tr>
-</table>
+<table><tr></tr></table>
 
 <div class="outer">
    <h1>404 Page not found</h1>
 </div>
+
+<script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
+<script>
+   getTabs('{{name|tojson}}', "b", "404")
+</script>
