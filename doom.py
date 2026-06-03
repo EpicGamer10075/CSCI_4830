@@ -11,11 +11,11 @@ def home():
    username = rFile.read().split('\n')[0]
    return render_template('home.html', name=username)
 
-@app.route('/showAndTell')
+@app.route('/focus')
 def showAndTell():
    rFile = open(path+"\\current.txt", "r")
    username = rFile.read().split('\n')[0]
-   return render_template('showtell.html', name=username)
+   return render_template('focus.html', name=username)
 
 @app.route('/pwreset')
 def pwReset():
@@ -143,7 +143,9 @@ def logoutUser():
 
 @app.errorhandler(404)
 def error(e):
-   return render_template('404.html')
+   rFile = open(path+"\\current.txt", "r")
+   username = rFile.read().split('\n')[0]
+   return render_template('404.html', name=username)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=15271, debug=True)
