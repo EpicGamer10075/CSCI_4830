@@ -15,7 +15,7 @@ This README will function as a to-do list of current things that need to be done
             <li>They will be at the location you just ran Terminal (by default, it's C:\Users\[NAME])</li>
         </ul></li>
         <li>Change terminal directory to folder<ul>
-            <li>Run command 'cd CSCI_3830'</li>
+            <li>Run command 'cd CSCI_4830'</li>
         </ul></li>
         <li>Run 'python doom.py'</li>
         <li>There will be 2 URLs printed in the output, saying it's "* Running on [URL]"</li>
