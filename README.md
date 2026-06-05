@@ -1,16 +1,3 @@
-<style>
-td {
-   background-color: black;
-   color: white;
-   font-family: Helvetica, Helvetica, sans-serif;
-   font-size: 20px;
-   text-align: center;
-   max-height: 2em;
-   min-width: 180px;
-   padding: 10px;
-}
-</style>
-
 <p>This README will function as a to-do list of current things that need to be done.</p>
 <table>
     <tr>
