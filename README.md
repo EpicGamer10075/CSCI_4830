@@ -23,3 +23,5 @@ This README will function as a to-do list of current things that need to be done
     </ol>
 </p>
 <p>To update files, use git add, or just re-upload them here</p>
+
+(TBH I took this stuff from a previous class, so it's nice it works here too!)
