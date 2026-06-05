@@ -1,10 +1,43 @@
-This README will function as a to-do list of current things that need to be done.
+<style>
+td {
+   background-color: black;
+   color: white;
+   font-family: Helvetica, Helvetica, sans-serif;
+   font-size: 20px;
+   text-align: center;
+   max-height: 2em;
+   min-width: 180px;
+   padding: 10px;
+}
+</style>
 
-<p>[X] Project setup</p>
-<p>[X] Database setup</p>
-<p>[X] User registration</p>
-<p>[X] User login</p>
-<p>[X] Home page</p>
+<p>This README will function as a to-do list of current things that need to be done.</p>
+<table>
+    <tr>
+        <td>Milestone 1</td>
+        <td>Milestone 2</td>
+        <td>Milestone 3</td>
+        <td>Milestone 4</td>
+    </tr>
+    <tr>
+        <td>User Regsistration</td>
+        <td>Focus Timer</td>
+        <td>Break Timer</td>
+        <td>Stats Page</td>
+    </tr>
+    <tr>
+        <td>User Login</td>
+        <td>Goal Creation</td></td>
+        <td>Check-in</td>
+        <td>Reminders</td>
+    </tr>
+    <tr>
+        <td>Home page</td>
+        <td>Save Focus Sessions</td>
+        <td>Distraction Logging</td>
+        <td>Polishing</td>
+    </tr>
+</table>
 
 <p>To run doom.py (which is the main executable here):
     <ol>
