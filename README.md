@@ -1,4 +1,4 @@
-<p>This README will function as a to-do list of current things that need to be done.</p>
+<h3>Milestones:</h3>
 <table>
     <tr>
         <td>Milestone 1</td>
@@ -25,7 +25,17 @@
         <td>Polishing</td>
     </tr>
 </table>
-
+<br>
+<p>This is an application meant to help a user manage and cut down on their doomscrolling.</p>
+<p>It does this with multiple features:<ul>
+    <li>Allowing the user to login and logout of the website.</li>
+    <li>Creation a timer that keeps track of distractions that happen during its duration.</li>
+    <li>Manual logging of distractions that happen to the user.</li>
+    <li>Creation of a larger goal that completed focus sessions will contribute to.</li>
+    <li>Viewing of stats about completed focus sessions.</li>
+    <li>Sending a check-in past a certain threshold of user scrolling.</li>
+    <li>Keeping an on-screen reminder when user is distracted.</li>
+</ul></p>
 <p>To run doom.py (which is the main executable here):
     <ol>
         <li>Clone the repository<ul>
@@ -42,6 +52,3 @@
         <li>Copy either of those URLs and put it into a web browser</li>
     </ol>
 </p>
-<p>To update files, use git add, or just re-upload them here</p>
-
-(TBH I took this stuff from a previous class, so it's nice it works here too!)
