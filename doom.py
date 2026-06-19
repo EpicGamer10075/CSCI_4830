@@ -6,7 +6,7 @@ import sqlite3
 app = Flask(__name__)
 path = os.path.dirname(__file__)
 
-mydb = sqlite3.connect("tutorial.db") #opens database in this thread
+mydb = sqlite3.connect("doom.db") #opens database in this thread
 cur = mydb.cursor() #creates cursor in database to execute commands
 cur.execute("CREATE TABLE IF NOT EXISTS user(username VARCHAR[32] NOT NULL PRIMARY KEY, password VARCHAR[32] NOT NULL)")
 cur.execute("CREATE TABLE IF NOT EXISTS current(username VARCHAR[32] NOT NULL, password VARCHAR[32] NOT NULL)")
@@ -14,7 +14,7 @@ mydb.commit() #commits the database so it persists between sessions
 mydb.close() #closes the database thread
 
 def getUsername():
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     res = cur.execute(f"SELECT username, password FROM current")
     name = res.fetchone()
@@ -46,7 +46,7 @@ def pwResetGo():
     username = request.form["username"]
     pwNew    = request.form["pwNew"]
     
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     res = cur.execute(f"SELECT username, password FROM user")
     name = res.fetchall()
@@ -75,7 +75,7 @@ def pwChangeGo():
     pwNew  = request.form["pwNew"]
     username = getUsername()
     
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     res = cur.execute(f"SELECT username, password FROM user")
     name = res.fetchall()
@@ -104,7 +104,7 @@ def registerUser():
     username = request.form["username"]
     password = request.form["password"]
 
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     res = cur.execute(f"SELECT username FROM user")
     name = res.fetchall()
@@ -134,7 +134,7 @@ def loginUser():
     username = request.form["username"]
     password = request.form["password"]
     
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     res = cur.execute(f"SELECT username, password FROM user")
     name = res.fetchall()
@@ -163,7 +163,7 @@ def logout():
     return render_template('logout.html', name=username, verify="")
 @app.route('/logout', methods=["POST"])
 def logoutUser():  
-    mydb = sqlite3.connect("tutorial.db")
+    mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     cur.execute(f"UPDATE current SET username = 'Logged Out'")
     mydb.commit()
