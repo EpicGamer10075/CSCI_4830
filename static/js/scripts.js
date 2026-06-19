@@ -6,7 +6,7 @@ function test(){
 //usersOnly is whether the current page is meant for logged in users or not ["y", "n", "b"]
 //boldTab is the current page to be bolded in tabs
 function getTabs(name, usersOnly, boldTab){
-	document.querySelector("tr").innerHTML += `<td><a class="header" href='../'>Home</a></td>`;
+	addTab(boldTab, "", "Home");
 	if(name == "\"Logged Out\"") //render logged out links
 	{
 		if(usersOnly == "n" || usersOnly == "b")
