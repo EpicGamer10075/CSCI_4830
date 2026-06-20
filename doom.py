@@ -166,6 +166,7 @@ def logoutUser():
     mydb = sqlite3.connect("doom.db")
     cur = mydb.cursor()
     cur.execute(f"UPDATE current SET username = 'Logged Out'")
+    cur.execute(f"UPDATE current SET password = ''")
     mydb.commit()
     mydb.close()
     verify = "Logged out"
