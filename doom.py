@@ -10,6 +10,9 @@ mydb = sqlite3.connect("doom.db") #opens database in this thread
 cur = mydb.cursor() #creates cursor in database to execute commands
 cur.execute("CREATE TABLE IF NOT EXISTS user(username VARCHAR[32] NOT NULL PRIMARY KEY, password VARCHAR[32] NOT NULL)")
 cur.execute("CREATE TABLE IF NOT EXISTS current(username VARCHAR[32] NOT NULL, password VARCHAR[32] NOT NULL)")
+res = cur.execute(f"SELECT username, password FROM current")
+if f"{res.fetchone()!r}" == "None": #if current is empty (should only happen on first startup)
+    cur.execute(f"INSERT INTO current(username, password) VALUES ('Logged Out','')") #insert 'Logged Out' into current
 mydb.commit() #commits the database so it persists between sessions
 mydb.close() #closes the database thread
 
