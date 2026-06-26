@@ -20,7 +20,7 @@
     </tr>
     <tr>
         <td>Home page</td>
-        <td>Save Focus Sessions</td>
+        <td>Allow User Input</td>
         <td>Distraction Logging</td>
         <td>Polishing</td>
     </tr>
