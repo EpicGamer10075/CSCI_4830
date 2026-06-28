@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Focus Goals</title>
+</head>
+<body>
+    <header>
+        <h3>Hello, {{ name }}</h3>
+    </header>
+    
+    <main>
+        <h2>Create a New Focus Goal</h2>
+        <form action="/goals" method="POST">
+            <label>Start Date:</label>
+            <input type="date" name="start_date" required><br><br>
+
+            <label>End Date:</label>
+            <input type="date" name="end_date" required><br><br>
+
+            <label>Target Focus Percentage (%):</label>
+            <input type="number" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required><br><br>
+
+            <button type="submit">Save Goal</button>
+        </form>
+
+        <hr>
+
+        <h2>Your Current Goals</h2>
+        {% if goals %}
+            <table border="1" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th>Goal ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Target Focus %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for goal in goals %}
+                        <tr>
+                            <td>{{ goal[0] }}</td>
+                            <td>{{ goal[1] }}</td>
+                            <td>{{ goal[2] }}</td>
+                            <td>{{ goal[3] }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You haven't created any focus goals yet!</p>
+        {% endif %}
+    </main>
+</body>
+</html>

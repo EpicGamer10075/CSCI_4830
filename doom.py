@@ -10,6 +10,8 @@ mydb = sqlite3.connect("doom.db") #opens database in this thread
 cur = mydb.cursor() #creates cursor in database to execute commands
 cur.execute("CREATE TABLE IF NOT EXISTS user(username VARCHAR[32] NOT NULL PRIMARY KEY, password VARCHAR[32] NOT NULL)")
 cur.execute("CREATE TABLE IF NOT EXISTS current(username VARCHAR[32] NOT NULL, password VARCHAR[32] NOT NULL)")
+# --- cesar ---
+cur.execute("CREATE TABLE IF NOT EXISTS goals(id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR[32] NOT NULL, start_date TEXT NOT NULL, end_date TEXT NOT NULL, target_focus_percentage INTEGER NOT NULL)")
 res = cur.execute(f"SELECT username, password FROM current")
 if f"{res.fetchone()!r}" == "None": #if current is empty (should only happen on first startup)
     cur.execute(f"INSERT INTO current(username, password) VALUES ('Logged Out','')") #insert 'Logged Out' into current
@@ -176,6 +178,44 @@ def logoutUser():
     
     username = getUsername()
     return render_template('logout.html', name=username, verify=verify)
+
+# --- cesar ---
+
+@app.route('/goals')
+def manage_goals():
+    username = getUsername()
+    
+    # Fetch existing goals for the logged-in user from the database
+    mydb = sqlite3.connect("doom.db")
+    cur = mydb.cursor()
+    res = cur.execute("SELECT id, start_date, end_date, target_focus_percentage FROM goals WHERE username = ?", (username,))
+    user_goals = res.fetchall()
+    mydb.close()
+    
+    return render_template('goals.html', name=username, goals=user_goals)
+
+@app.route('/goals', methods=['POST'])
+def create_goal():
+    username = getUsername()
+    
+    # 1. Take user input from the HTML form
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+    target_percentage = request.form.get('target_focus_percentage')
+
+    if start_date and end_date and target_percentage:
+        # 2. Save that input into the SQL table
+        mydb = sqlite3.connect("doom.db")
+        cur = mydb.cursor()
+        cur.execute(
+            "INSERT INTO goals (username, start_date, end_date, target_focus_percentage) VALUES (?, ?, ?, ?)",
+            (username, start_date, end_date, int(target_percentage))
+        )
+        mydb.commit()
+        mydb.close()
+
+    return manage_goals()
+
 
 @app.errorhandler(404)
 def error(e):
