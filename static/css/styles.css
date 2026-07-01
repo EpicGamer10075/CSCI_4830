@@ -1,7 +1,15 @@
 table {
    background-color: black;
    margin: auto;
-   max-width: 100%;
+   width: 100%;
+}
+.focus , .forms {
+   background-color: white;
+   color: black;
+   text-align: left;
+}
+span {
+	width: 100%;
 }
 td {
    background-color: black;
@@ -13,6 +21,12 @@ td {
    min-width: 180px;
    padding: 10px;
 }
+td.focus {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+}
 td.s {
    background-color: white;
    color: black;
@@ -21,6 +35,11 @@ td.l {
    font-weight: bold;
    text-align: right;
    width: 100%;
+}
+td.n {
+	min-width: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 a.header {
    color: white;
@@ -38,6 +57,11 @@ h2 {
    margin-top: 0px;
    margin-bottom: 5px;
 }
+h3 {
+   font-family: Helvetica, Helvetica, sans-serif;
+   margin-top: 0px;
+   margin-bottom: 5px;
+}
 h5 {
    font-family: Helvetica, Helvetica, sans-serif;
    margin-top: 0px;
@@ -48,6 +72,9 @@ h5 {
 p {
    font-family: Helvetica, Helvetica, sans-serif;
    margin: 0px;
+}
+label {
+	font-family: Helvetica, Helvetica, sans-serif;
 }
 div.outer {
    margin-left: 10%;
@@ -62,6 +89,9 @@ div.inner {
    padding: 10px;
    margin-top: 10px;
    margin-bottom: 10px;
+   max-width: 60em;
+   color: black;
+   text-align: left;
 }
 img {
    width: 100%;
