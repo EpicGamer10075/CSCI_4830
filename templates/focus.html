@@ -4,11 +4,103 @@
 
 <table><tr></tr></table>
 <div class="outer" id="blog">
-   <h1>Focus Stuff</h1>
-   <p>Page that will contain focus stuff</p>
+	<h1>Focus Stuff</h1>
+	<p>Page that will contain focus stuff</p>
+
+	<table class="forms"><tr class="forms">
+		<td class="forms"><form method="post" action="/focus">
+			<label for="tdur">Timer duration (seconds):</label><br>
+			<input type="number" id="tdur" name="tdur" value="60" min="0" max="100" required><br><br>
+			<input type="submit" value="Submit">
+		</form></td>
+
+		
+		<td class="forms">
+		<h2>Create a New Focus Goal</h2>
+		<form method="post" action="/focus">
+			<label for="start_date">Start Date:</label><br>
+			<input type="date" id="start_date" name="start_date" required><br>
+			<label for="end_date">End Date:</label><br>
+			<input type="date" id="end_date" name="end_date" required><br>
+			<label for="target_focus_percentage">Target Focus Percentage (%):</label><br>
+            <input type="number" id="target_focus_percentage" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required><br><br>
+			<input type="submit" value="Submit">
+		</form></td>
+	</tr></table>
 </div>
 
-<script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
+<table class="focus"><tr>
+	<td class="focus">
+		<span id="focus"><h3>Current Focus Timer:</h3></span>
+		
+		<span id="stats"><h3>Completed Focus Timers:</h3></span>
+	</td>
+	<td class="n"></td>
+	<td class="focus">
+		<span id="goal"><h3>Current Focus Goal:</h3></span>
+	</td>
+</tr></table>
+
+<script type="text/javascript" src="/static/js/scripts.js"></script> <!-- loads the functions from scripts.js -->
 <script>
-   getTabs('{{name|tojson}}', "y", "Focus")
+	getTabs('{{name|tojson}}', "y", "Focus")
+
+	let redir = "{{redir}}"; //redirect to main /focus page
+	if(redir==1){
+		location.replace("/focus");
+	}
+
+	let timerText = '{{curTimer}}'.split(",");
+	
+	if(timerText[0] != ""){ //displays current focus timer
+		document.getElementById("focus").innerHTML += `<div class="inner"><h3>Duration: ${timerText[1]}</h3></div`;
+		setTimeout(expire, timerText[2] * 1000); //sets up function to call, and passes values to it
+	}
+	else{ //displays empty focus timer when none are active
+		document.getElementById("focus").innerHTML += `<div class="inner"><h3>No focus timer active</h3></div`;
+	}
+	function expire() { //when current focus timer expires
+		alert("Timer has expired!"); //sends alert to user
+		location.replace("/focusComplete"); //once alert cleared, reloads webpage (goes to Complete timer)
+	}
+	
+	let completeTimers = '{{comTimers}}'.split(";"); //all complete timers, gotten from complete table
+	for(let t=0; t<completeTimers.length-1; t++){
+		let timerText = completeTimers[t].split(",");
+		let date = timerText[3].substring(0, timerText[3].indexOf(" ")); //extracts date (YYYY-MM-DD)
+		let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); //extracts endTime (hr:min)
+		document.getElementById("stats").innerHTML +=
+			`<div class="inner"><h3>Duration: ${timerText[1]}, Percentage Focus: ${timerText[2]}%, <br>Date: ${date}, Start Time: ${endTime}</h3>
+            <button onclick="removeTimer('${timerText[0]}')">Remove</button></div>`;
+	}
+	
+	let goalText = '{{curGoal}}'.split(";"); //splits goalText into lines
+	for(let i=0; i<goalText.length - 1; i++){ //for each trio of Goal start, and end, target_focus_percentage
+		let goalSplit = goalText[i].split(",");
+			let goalID = goalSplit[0];
+		if(goalID == ""){ //if line is empty, break
+			break;
+		}
+		let begDate = goalSplit[1];
+		let endDate = goalSplit[2]; //sets begin and end dates for comparing against complete timers
+		let focusPercent = goalSplit[3];
+		
+		document.getElementById("goal").innerHTML += `<div class="inner"><h3>Start Date: ${begDate}, End Date: ${endDate}, <br>Target Focus Percentage: ${focusPercent}</h3>
+         <button onclick="removeGoal('${goalID}')">Remove</button></div>`;//Percentage Focus: ${(totalFocus/totalTimer*100).toFixed(2)}%
+	}
+
+	function removeTimer(timerName) { //removes specified completed timer
+		location.replace("/focusRemove/timer/"+timerName); //reloads webpage (goes to Remove timer)
+	}
+	function removeGoal(goalName) { //removes specified completed timer
+		location.replace("/focusRemove/goal/"+goalName); //reloads webpage (goes to Remove goal)
+	}
+	function compareDates(start, end, within){ //checks if within is inside of start and end dates, and returns boolean
+		let startParts = start.split("-"); //YYYY-MM-DD -> [YYYY, MM, DD]
+		let endParts = end.split("-");
+		let withinParts = within.split("-");
+		return (Number(startParts[0]) <= Number(withinParts[0]) && Number(withinParts[0]) <= Number(endParts[0]) &&
+				Number(startParts[1]) <= Number(withinParts[1]) && Number(withinParts[1]) <= Number(endParts[1]) &&
+				Number(startParts[2]) <= Number(withinParts[2]) && Number(withinParts[2]) <  Number(endParts[2]))
+	}
 </script>
