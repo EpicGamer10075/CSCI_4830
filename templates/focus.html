@@ -58,6 +58,8 @@
 		location.replace("/focus");
 	}
 
+	inputChecker() //activate AFK check
+
 	let timerText = '{{curTimer}}'.split(",");
 	
 	if(timerText[0] != ""){ //displays current focus timer
@@ -130,10 +132,10 @@
 
 	function validateForm() { //validates timer & break form
 		let timerForm = document.forms["timer"];
-		let tdur = timerForm["tdur"].value;
+		let tdur = Number(timerForm["tdur"].value);
 		if(timerForm["bstr"] != null) {
-			let bstr = timerForm["bstr"].value;
-			let bdur = timerForm["bdur"].value;
+			let bstr = Number(timerForm["bstr"].value);
+			let bdur = Number(timerForm["bdur"].value);
 			if(tdur <= (bstr + bdur)) { //if break falls outside timer duration, prevent from submitting
 				alert("Break must be contained within timer");
 				return false;
