@@ -31,6 +31,7 @@ cur.execute("CREATE TABLE IF NOT EXISTS completed_timers(id INTEGER PRIMARY KEY 
 cur.execute("CREATE TABLE IF NOT EXISTS goals(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, start_date TEXT NOT NULL, end_date TEXT NOT NULL, target_focus_percentage INTEGER NOT NULL)")
 cur.execute("DELETE FROM active_timer")
 cur.execute("DELETE FROM distraction")
+cur.execute("DELETE FROM break")
 res = cur.execute(f"SELECT username, password FROM current")
 #print(f"{res.fetchone()!r}")
 if f"{res.fetchone()!r}" == "None": #if current is empty (should only happen on first startup)
@@ -43,7 +44,7 @@ mydb.close() #closes the database thread
 # START User_Input
 #################################################################
 def receiveSignal(signalNumber, frame): #detects when SIGILL (crtl+C) is triggered
-    print('Received:', signalNumber)
+    #print('Received:', signalNumber)
     global threadEnd
     threadEnd = True #setting this will end the thread
     inputMonitor.join() #ends inputMonitor
@@ -61,13 +62,14 @@ signal.signal(signal.SIGINT, receiveSignal)
 tester = "init" #use current render_template to change page without reload (DOESN'T WORK)
 threadEnd = False #flag to end inputMonitor thread
 durAFK = 0.0 #duration without input, in seconds
+thresholdAFK = 5*4.0 #normally 5*60
 
 def getAFK(): #spins in place, detecting if user has gone AFK
     global tester
     global threadEnd
     global durAFK
     while not threadEnd:
-        if durAFK > 5*60: #if 5 minutes have passed without input, [trigger AFK]
+        if durAFK > thresholdAFK: #if 5 minutes have passed without input, [trigger AFK]
             tester = "AFK"
             #print("AFK")
         #else:
@@ -101,7 +103,7 @@ inputMonitor.start() #starts inputMonitor as thread with function getAFK()
 @app.route('/process-data', methods=['POST']) #not viewable webpage, just used for fetch requests
 def process_data():
     global durAFK
-    return str(durAFK > 5.0*60)
+    return str(durAFK > thresholdAFK)
 
 #################################################################
 # END User_Input
@@ -524,9 +526,11 @@ To-Do:
         [X] Complete
         [X] Goal
     Comment out stuff related to later Milestones:
-        Break
-        Distraction
-        AFK (not included yet)
+        [X] Break
+        [X] Distraction
+        [X] AFK
         Stats (not included yet)
+        Reminders
+        Polish
 [X] Add button to remove focus goal
 '''
