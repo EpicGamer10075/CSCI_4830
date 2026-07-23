@@ -3,54 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Focus Goals</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <header>
-        <h3>Hello, {{ name }}</h3>
-    </header>
-    
     <main>
-        <h2>Create a New Focus Goal</h2>
-        <form action="/goals" method="POST">
-            <label>Start Date:</label>
-            <input type="date" name="start_date" required><br><br>
+        <header style="margin-bottom: 24px;">
+            <h3>Hello, {{ name }}</h3>
+        </header>
 
-            <label>End Date:</label>
-            <input type="date" name="end_date" required><br><br>
+        <!-- Form Card -->
+        <div class="card">
+            <h2>Create a New Focus Goal</h2>
+            <form action="/goals" method="POST">
+                <div class="form-group">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                </div>
 
-            <label>Target Focus Percentage (%):</label>
-            <input type="number" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required><br><br>
+                <div class="form-group">
+                    <label for="end_date">End Date</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                </div>
 
-            <button type="submit">Save Goal</button>
-        </form>
+                <div class="form-group">
+                    <label for="target_focus_percentage">Target Focus Percentage (%)</label>
+                    <input type="number" id="target_focus_percentage" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required>
+                </div>
 
-        <hr>
+                <button type="submit">Save Goal</button>
+            </form>
+        </div>
 
-        <h2>Your Current Goals</h2>
-        {% if goals %}
-            <table border="1" cellpadding="10">
-                <thead>
-                    <tr>
-                        <th>Goal ID</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Target Focus %</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for goal in goals %}
+        <!-- Goals Table Card -->
+        <div class="card">
+            <h2>Your Current Goals</h2>
+            {% if goals %}
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ goal[0] }}</td>
-                            <td>{{ goal[1] }}</td>
-                            <td>{{ goal[2] }}</td>
-                            <td>{{ goal[3] }}%</td>
+                            <th>Goal ID</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Target Focus %</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>You haven't created any focus goals yet!</p>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for goal in goals %}
+                            <tr>
+                                <td>{{ goal[0] }}</td>
+                                <td>{{ goal[1] }}</td>
+                                <td>{{ goal[2] }}</td>
+                                <td>{{ goal[3] }}%</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You haven't created any focus goals yet!</p>
+            {% endif %}
+        </div>
     </main>
 </body>
 </html>

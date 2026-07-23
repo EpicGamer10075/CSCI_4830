@@ -2,170 +2,199 @@
    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
+<!-- Navigation Bar Table -->
 <table><tr></tr></table>
-<div class="outer" id="blog">
-	<h1>Focus Stuff</h1>
-	<p>Page that will contain focus stuff</p>
 
-	<table class="forms"><tr class="forms">
-		<td class="forms"><form name="timer" method="post" action="/focus" onsubmit="return validateForm()">
-			<label for="tdur">Total timer duration (seconds):</label><br>
-			<input type="number" id="tdur" name="tdur" value="60" min="0" max="100" required><br><br>
-			<button onclick="newBreak()">Add Break</button><br><br>
-			<input type="submit" value="Submit">
-		</form></td>
+<main>
+   <!-- Page Header Card -->
+   <div class="card" id="blog">
+      <h1>Focus Workspace</h1>
+      <p>Set focus timers, log unexpected distractions, and manage your focus goals.</p>
+   </div>
 
-		<td class="forms"><form method="post" action="/focus">
-			<label for="dname">Distraction name:</label><br>
-			<input type="text" id="dname" name="dname" placeholder="distraction name" disabled required><br>
-			<label for="ddur">Distraction duration (seconds):</label><br>
-			<input type="number" id="ddur" name="ddur" value="60" min="0" max="100" disabled required><br><br>
-			<input type="submit" value="Submit" disabled>
-		</form></td>
+   <!-- Form Section Cards -->
+   <div class="grid-container" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
+      
+      <!-- Timer Setup -->
+      <div class="card forms-card">
+         <h2>Set Timer</h2>
+         <form name="timer" method="post" action="/focus" onsubmit="return validateForm()">
+            <div class="form-group">
+               <label for="tdur">Total duration (seconds):</label>
+               <input type="number" id="tdur" name="tdur" value="60" min="0" max="100" required>
+            </div>
+            <button type="button" onclick="newBreak()" class="btn-secondary" style="margin-bottom: 12px; width: 100%;">Add Break</button>
+            <input type="submit" value="Submit" class="btn" style="width: 100%;">
+         </form>
+      </div>
 
-		<td class="forms">
-		<h2>Create a New Focus Goal</h2>
-		<form method="post" action="/focus">
-			<label for="start_date">Start Date:</label><br>
-			<input type="date" id="start_date" name="start_date" required><br>
-			<label for="end_date">End Date:</label><br>
-			<input type="date" id="end_date" name="end_date" required><br>
-			<label for="target_focus_percentage">Target Focus Percentage (%):</label><br>
-            <input type="number" id="target_focus_percentage" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required><br><br>
-			<input type="submit" value="Submit">
-		</form></td>
-	</tr></table>
-</div>
+      <!-- Log Distraction -->
+      <div class="card forms-card">
+         <h2>Log Distraction</h2>
+         <form method="post" action="/focus">
+            <div class="form-group">
+               <label for="dname">Distraction name:</label>
+               <input type="text" id="dname" name="dname" placeholder="distraction name" disabled required>
+            </div>
+            <div class="form-group">
+               <label for="ddur">Duration (seconds):</label>
+               <input type="number" id="ddur" name="ddur" value="60" min="0" max="100" disabled required>
+            </div>
+            <input type="submit" value="Submit" disabled class="btn" style="width: 100%;">
+         </form>
+      </div>
 
-<table class="focus"><tr>
-	<td class="focus">
-		<span id="focus"><h3>Current Focus Timer:</h3></span>
-		
-		<span id="stats"><h3>Completed Focus Timers:</h3></span>
-	</td>
-	<td class="n"></td>
-	<td class="focus">
-		<span id="goal"><h3>Current Focus Goal:</h3></span>
-	</td>
-</tr></table>
+      <!-- Create Focus Goal -->
+      <div class="card forms-card">
+         <h2>New Focus Goal</h2>
+         <form method="post" action="/focus">
+            <div class="form-group">
+               <label for="start_date">Start Date:</label>
+               <input type="date" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+               <label for="end_date">End Date:</label>
+               <input type="date" id="end_date" name="end_date" required>
+            </div>
+            <div class="form-group">
+               <label for="target_focus_percentage">Target Focus (%):</label>
+               <input type="number" id="target_focus_percentage" name="target_focus_percentage" min="1" max="100" placeholder="e.g. 66" required>
+            </div>
+            <input type="submit" value="Submit" class="btn" style="width: 100%;">
+         </form>
+      </div>
 
-<script type="text/javascript" src="/static/js/scripts.js"></script> <!-- loads the functions from scripts.js -->
+   </div>
+
+   <!-- Active Timers & Stats Cards -->
+   <div class="grid-container" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+      
+      <div class="card">
+         <span id="focus"><h2>Current Focus Timer</h2></span>
+         <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+         <span id="stats"><h2>Completed Focus Timers</h2></span>
+      </div>
+
+      <div class="card">
+         <span id="goal"><h2>Current Focus Goal</h2></span>
+      </div>
+
+   </div>
+</main>
+
+<!-- Load scripts ONCE at the end of the file -->
+<script type="text/javascript" src="/static/js/scripts.js"></script>
 <script>
-	getTabs('{{name|tojson}}', "y", "Focus")
+    
+    getTabs('{{name|tojson}}', "y", "Focus");
 
-	let redir = "{{redir}}"; //redirect to main /focus page
-	if(redir==1){
-		location.replace("/focus");
-	}
+    let redir = "{{redir}}"; // redirect to main /focus page
+    if(redir == 1){
+        location.replace("/focus");
+    }
 
-	inputChecker() //activate AFK check
+    inputChecker(); // activate AFK check
 
-	let timerText = '{{curTimer}}'.split(",");
-	
-	if(timerText[0] != ""){ //displays current focus timer
-		//DISTRACTION
-		//document.getElementById("focus").innerHTML += `<div class="inner"><h3>Duration: ${timerText[1]}</h3></div`;
-		//setTimeout(expire, timerText[2] * 1000); //sets up function to call, and passes values to it
+    let timerText = '{{curTimer}}'.split(",");
+    
+    if(timerText[0] != ""){ // displays current focus timer
+        document.getElementById("focus").innerHTML += `<div class="inner"><h3>Duration: ${timerText[1]}</h3><button onclick="forceStop()">Force Stop</button></div>`;
+        let distTimers = '{{curDist}}'.split(";");
+        for(let d=0; d<distTimers.length-1; d++){
+            document.getElementById("focus").innerHTML += `<span id="focus"><h3>Distractions in Current Focus Timer:</h3></span>`;
+            let distText = distTimers[d].split(",");
+            document.getElementById("focus").innerHTML += `<div class="inner"><h3>Cause: ${distText[3]}, Duration: ${distText[1]}</h3></div>`;
+        }
+        
+        // Target the second form container card for enabling input
+        let formCards = document.querySelectorAll(".forms-card");
+        if(formCards[1]){
+            formCards[1].innerHTML = `<h2>Log Distraction</h2><form method="post" action="/focus">
+                <div class="form-group"><label for="dname">Distraction name:</label>
+                <input type="text" id="dname" name="dname" placeholder="distraction name" required></div>
+                <div class="form-group"><label for="ddur">Distraction duration (seconds):</label>
+                <input type="number" id="ddur" name="ddur" value="60" min="0" max="100" required></div>
+                <input type="submit" value="Submit" class="btn" style="width: 100%;"></form>`;
+        }
+        setTimeout(expire, timerText[2] * 1000); 
+    }
+    else{ 
+        document.getElementById("focus").innerHTML += `<div class="inner"><p>No focus timer active</p></div>`;
+    }
 
-		document.getElementById("focus").innerHTML += `<div class="inner"><h3>Duration: ${timerText[1]}</h3><button onclick="forceStop()">Force Stop</button></div>`;
-		let distTimers = '{{curDist}}'.split(";");
-		for(let d=0; d<distTimers.length-1; d++){
-			document.getElementById("focus").innerHTML += `<span id="focus"><h3>Distractions in Current Focus Timer:</h3></span>`
-			let distText = distTimers[d].split(",");
-			document.getElementById("focus").innerHTML += `<div class="inner"><h3>Cause: ${distText[3]}, Duration: ${distText[1]}</h3></div>`;
-		}
-		document.querySelectorAll("td.forms")[1].innerHTML = `<form method="post" action="/focus">
-			<label for="dname">Distraction name:</label><br>
-			<input type="text" id="dname" name="dname" placeholder="distraction name" required><br>
-			<label for="ddur">Distraction duration (seconds):</label><br>
-			<input type="number" id="ddur" name="ddur" value="60" min="0" max="100" required><br><br>
-			<input type="submit" value="Submit"></form>`; //enables the Distraction form only when a Focus timer is active
-		setTimeout(expire, timerText[2] * 1000); //sets up function to call, and passes values to it
-	}
-	else{ //displays empty focus timer when none are active
-		document.getElementById("focus").innerHTML += `<div class="inner"><h3>No focus timer active</h3></div>`;
-	}
-	function expire() { //when current focus timer expires
-		alert("Timer has expired!"); //sends alert to user
-		location.replace("/focusComplete/false"); //once alert cleared, reloads webpage (goes to Complete timer)
-	}
-	
-	let completeTimers = '{{comTimers}}'.split(";"); //all complete timers, gotten from complete table
-	for(let t=0; t<completeTimers.length-1; t++){
-		let timerText = completeTimers[t].split(",");
-		let date = timerText[3].substring(0, timerText[3].indexOf(" ")); //extracts date (YYYY-MM-DD)
-		let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); //extracts endTime (hr:min)
-		document.getElementById("stats").innerHTML +=
-			`<div class="inner"><h3>Duration: ${timerText[1]}, Percentage Focus: ${timerText[2]}%, <br>Date: ${date}, Start Time: ${endTime}</h3>
-            <button onclick="removeTimer('${timerText[0]}')">Remove</button></div>`;
-	}
-	
-	let goalText = '{{curGoal}}'.split(";"); //splits goalText into lines
-	for(let i=0; i<goalText.length - 1; i++){ //for each trio of Goal start, and end, target_focus_percentage
-		let goalSplit = goalText[i].split(",");
-			let goalID = goalSplit[0];
-		if(goalID == ""){ //if line is empty, break
-			break;
-		}
-		let begDate = goalSplit[1];
-		let endDate = goalSplit[2]; //sets begin and end dates for comparing against complete timers
-		let focusPercent = goalSplit[3];
-		
-		document.getElementById("goal").innerHTML += `<div class="inner"><h3>Start Date: ${begDate}, End Date: ${endDate}, <br>Target Focus Percentage: ${focusPercent}</h3>
-         <button onclick="removeGoal('${goalID}')">Remove</button></div>`;//Percentage Focus: ${(totalFocus/totalTimer*100).toFixed(2)}%
-	}
+    function expire() { 
+        alert("Timer has expired!"); 
+        location.replace("/focusComplete/false"); 
+    }
+    
+    let completeTimers = '{{comTimers}}'.split(";"); 
+    for(let t=0; t<completeTimers.length-1; t++){
+        let timerText = completeTimers[t].split(",");
+        let date = timerText[3].substring(0, timerText[3].indexOf(" ")); 
+        let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); 
+        document.getElementById("stats").innerHTML +=
+            `<div class="inner" style="margin-bottom: 12px;"><p><strong>Duration:</strong> ${timerText[1]}s | <strong>Focus:</strong> ${timerText[2]}% <br><strong>Date:</strong> ${date} (${endTime})</p>
+            <button onclick="removeTimer('${timerText[0]}')" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;">Remove</button></div>`;
+    }
+    
+    let goalText = '{{curGoal}}'.split(";"); 
+    for(let i=0; i<goalText.length - 1; i++){ 
+        let goalSplit = goalText[i].split(",");
+        let goalID = goalSplit[0];
+        if(goalID == ""){ 
+            break;
+        }
+        let begDate = goalSplit[1];
+        let endDate = goalSplit[2]; 
+        let focusPercent = goalSplit[3];
+        
+        document.getElementById("goal").innerHTML += `<div class="inner" style="margin-bottom: 12px;"><p><strong>Start:</strong> ${begDate} | <strong>End:</strong> ${endDate}<br><strong>Target Focus:</strong> ${focusPercent}%</p>
+         <button onclick="removeGoal('${goalID}')" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;">Remove</button></div>`;
+    }
 
-	function removeTimer(timerName) { //removes specified completed timer
-		location.replace("/focusRemove/timer/"+timerName); //reloads webpage (goes to Remove timer)
-	}
-	function removeGoal(goalName) { //removes specified completed timer
-		location.replace("/focusRemove/goal/"+goalName); //reloads webpage (goes to Remove goal)
-	}
-	function compareDates(start, end, within){ //checks if within is inside of start and end dates, and returns boolean
-		let startParts = start.split("-"); //YYYY-MM-DD -> [YYYY, MM, DD]
-		let endParts = end.split("-");
-		let withinParts = within.split("-");
-		return (Number(startParts[0]) <= Number(withinParts[0]) && Number(withinParts[0]) <= Number(endParts[0]) &&
-				Number(startParts[1]) <= Number(withinParts[1]) && Number(withinParts[1]) <= Number(endParts[1]) &&
-				Number(startParts[2]) <= Number(withinParts[2]) && Number(withinParts[2]) <  Number(endParts[2]))
-	}
+    function removeTimer(timerName) { 
+        location.replace("/focusRemove/timer/"+timerName); 
+    }
+    function removeGoal(goalName) { 
+        location.replace("/focusRemove/goal/"+goalName); 
+    }
 
-	function validateForm() { //validates timer & break form
-		let timerForm = document.forms["timer"];
-		let tdur = Number(timerForm["tdur"].value);
-		if(timerForm["bstr"] != null) {
-			let bstr = Number(timerForm["bstr"].value);
-			let bdur = Number(timerForm["bdur"].value);
-			if(tdur <= (bstr + bdur)) { //if break falls outside timer duration, prevent from submitting
-				alert("Break must be contained within timer");
-				return false;
-			}
-		}
-	}
+    function validateForm() { 
+        let timerForm = document.forms["timer"];
+        let tdur = Number(timerForm["tdur"].value);
+        if(timerForm["bstr"] != null) {
+            let bstr = Number(timerForm["bstr"].value);
+            let bdur = Number(timerForm["bdur"].value);
+            if(tdur <= (bstr + bdur)) { 
+                alert("Break must be contained within timer");
+                return false;
+            }
+        }
+    }
 
-	let breakID = 1;
-	function newBreak(){ //adds new break+focus
-		let focusForm = document.querySelector("td.forms"); //gets focus form
-		let curForm = focusForm.innerHTML; //current focusForm innerHTML
-		curForm = curForm.substring(0, curForm.lastIndexOf("required")+20) //everything before and including the final <br>
-		focusForm.innerHTML = curForm +`<label for="bstr">Break start:</label><br>
-										<input type="number" id="bstr" name="bstr" value="60" min="0" max="100" required><br>
-										<label for="bdur">Break duration:</label><br>
-										<input type="number" id="bdur" name="bdur" value="60" min="0" max="100" required><br><br>
-										<button onclick="delBreak()">Delete Break</button><br><br>
-										<input type="submit" value="Submit">`;
-		breakID++;
-	}
-	function delBreak(){ //removes last break+focus
-		let focusForm = document.querySelector("td.forms"); //gets focus form
-		let curForm = focusForm.innerHTML; //current focusForm innerHTML
-		curForm = curForm.substring(0, curForm.lastIndexOf("<label for=\"bstr")) //everything before the final bstr label
-		focusForm.innerHTML = curForm +`<button onclick="newBreak()">Add Break</button><br><br>
-										<input type="submit" value="Submit">`; //disables Delete button if this is the only Break
-		breakID--;
-	}
+    let breakID = 1;
+    function newBreak(){ 
+        let focusForm = document.querySelector(".forms-card"); 
+        let curForm = focusForm.innerHTML; 
+        curForm = curForm.substring(0, curForm.lastIndexOf("required")+20);
+        focusForm.innerHTML = curForm +`<div class="form-group"><label for="bstr">Break start:</label>
+                                        <input type="number" id="bstr" name="bstr" value="60" min="0" max="100" required></div>
+                                        <div class="form-group"><label for="bdur">Break duration:</label>
+                                        <input type="number" id="bdur" name="bdur" value="60" min="0" max="100" required></div>
+                                        <button type="button" onclick="delBreak()" class="btn-secondary" style="margin-bottom: 12px; width: 100%;">Delete Break</button>
+                                        <input type="submit" value="Submit" class="btn" style="width: 100%;">`;
+        breakID++;
+    }
+    function delBreak(){ 
+        let focusForm = document.querySelector(".forms-card"); 
+        let curForm = focusForm.innerHTML; 
+        curForm = curForm.substring(0, curForm.lastIndexOf("<div class=\"form-group\"><label for=\"bstr"));
+        focusForm.innerHTML = curForm +`<button type="button" onclick="newBreak()" class="btn-secondary" style="margin-bottom: 12px; width: 100%;">Add Break</button>
+                                        <input type="submit" value="Submit" class="btn" style="width: 100%;">`; 
+        breakID--;
+    }
 
-	function forceStop(){
-		location.replace("/focusComplete/true");
-	}
+    function forceStop(){
+        location.replace("/focusComplete/true");
+    }
 </script>
