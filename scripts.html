@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>scripts.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>scripts.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>Contains scripts that are run on each HTML page, dictating the HTML elements within the page.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>used for testing things, not currently relevant</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">test</span><span class="p">(){</span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot;&lt;td&gt;&lt;a class=\&quot;header\&quot; href=&#39;../&#39;   &gt;TEST&lt;/a&gt;&lt;/td&gt;&quot;</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>main function called by each page, constructs navigation bar at top of page</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">getTabs</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">usersOnly</span><span class="p">,</span><span class="w"> </span><span class="nx">boldTab</span><span class="p">){</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>name is logged in username
+usersOnly is whether the current page is meant for logged in users or not [&ldquo;y&rdquo;, &ldquo;n&rdquo;, &ldquo;b&rdquo;]
+boldTab is the current page to be bolded in tabs</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="w">	</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Home&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;\&quot;Logged Out\&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">//render logged out links</span>
+<span class="w">	</span><span class="p">{</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="nx">usersOnly</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;n&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">usersOnly</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="w">		</span><span class="p">{</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;register&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Register&quot;</span><span class="p">)</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;login&quot;</span><span class="p">,</span><span class="w">    </span><span class="s2">&quot;Login&quot;</span><span class="p">)</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pwreset&quot;</span><span class="p">,</span><span class="w">  </span><span class="s2">&quot;Password Reset&quot;</span><span class="p">)</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">else</span>
+<span class="w">		</span><span class="p">{</span>
+<span class="w">			</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">else</span><span class="w"> </span><span class="c1">//render logged in links</span>
+<span class="w">	</span><span class="p">{</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="nx">usersOnly</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">usersOnly</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="w">		</span><span class="p">{</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;focus&quot;</span><span class="p">,</span><span class="w">    </span><span class="s2">&quot;Focus&quot;</span><span class="p">)</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;logout&quot;</span><span class="p">,</span><span class="w">   </span><span class="s2">&quot;Logout&quot;</span><span class="p">)</span>
+<span class="w">			</span><span class="nx">addTab</span><span class="p">(</span><span class="nx">boldTab</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pwchange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Password Change&quot;</span><span class="p">)</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">else</span>
+<span class="w">		</span><span class="p">{</span>
+<span class="w">			</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;td class=\&quot;l\&quot;&gt;</span><span class="si">${</span><span class="nx">name</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="nx">name</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mf">1</span><span class="p">)</span><span class="si">}</span><span class="sb">&lt;/td&gt;`</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>helper function for getTabs(), adds specified tab to navigation bar</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">addTab</span><span class="p">(</span><span class="nx">curPage</span><span class="p">,</span><span class="w"> </span><span class="nx">toPage</span><span class="p">,</span><span class="w"> </span><span class="nx">pageName</span><span class="p">){</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">selected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pageName</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">curPage</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">tdPart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">selected</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot; class=\&quot;s\&quot;&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">classPart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">selected</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot;-s&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;td</span><span class="si">${</span><span class="nx">tdPart</span><span class="si">}</span><span class="sb">&gt;&lt;a class=\&quot;header</span><span class="si">${</span><span class="nx">classPart</span><span class="si">}</span><span class="sb">\&quot; href=&#39;../</span><span class="si">${</span><span class="nx">toPage</span><span class="si">}</span><span class="sb">&#39;&gt;</span><span class="si">${</span><span class="nx">pageName</span><span class="si">}</span><span class="sb">&lt;/a&gt;&lt;/td&gt;`</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

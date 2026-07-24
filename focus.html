@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>focus.js</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>focus.js</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>This file contains all the code used within the focus.html page, dictating how the data sent from doom.py is shown, and how to manipulate it back.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>universal function to construct tabs at top of screen for navigation</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">getTabs</span><span class="p">(</span><span class="s1">&#39;{{name|tojson}}&#39;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Focus&quot;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>redirect to main /focus page</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">let</span><span class="w"> </span><span class="nx">redir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{{redir}}&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">redir</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1</span><span class="p">){</span>
+<span class="w">	</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/focus&quot;</span><span class="p">);</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>activate AFK check</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nx">inputChecker</span><span class="p">();</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">timerText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{{curTimer}}&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">);</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>displays current focus timer</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">){</span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;focus&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;div class=&quot;inner&quot;&gt;&lt;h3&gt;Duration: </span><span class="si">${</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="si">}</span><span class="sb">&lt;/h3&gt;&lt;button onclick=&quot;forceStop()&quot;&gt;Force Stop&lt;/button&gt;&lt;/div&gt;`</span><span class="p">;</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">distTimers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{{curDist}}&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">d</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">d</span><span class="o">&lt;</span><span class="nx">distTimers</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">d</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;focus&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;span id=&quot;focus&quot;&gt;&lt;h3&gt;Distractions in Current Focus Timer:&lt;/h3&gt;&lt;/span&gt;`</span><span class="p">;</span>
+<span class="w">		</span><span class="kd">let</span><span class="w"> </span><span class="nx">distText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">distTimers</span><span class="p">[</span><span class="nx">d</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">);</span>
+<span class="w">		</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;focus&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;div class=&quot;inner&quot;&gt;&lt;h3&gt;Cause: </span><span class="si">${</span><span class="nx">distText</span><span class="p">[</span><span class="mf">3</span><span class="p">]</span><span class="si">}</span><span class="sb">, Duration: </span><span class="si">${</span><span class="nx">distText</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="si">}</span><span class="sb">&lt;/h3&gt;&lt;/div&gt;`</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Target the second form container card for enabling input</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">formCards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.forms-card&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="nx">formCards</span><span class="p">[</span><span class="mf">1</span><span class="p">]){</span>
+<span class="w">		</span><span class="nx">formCards</span><span class="p">[</span><span class="mf">1</span><span class="p">].</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`&lt;h2&gt;Log Distraction&lt;/h2&gt;&lt;form method=&quot;post&quot; action=&quot;/focus&quot;&gt;</span>
+<span class="sb">			&lt;div class=&quot;form-group&quot;&gt;&lt;label for=&quot;dname&quot;&gt;Distraction name:&lt;/label&gt;</span>
+<span class="sb">			&lt;input type=&quot;text&quot; id=&quot;dname&quot; name=&quot;dname&quot; placeholder=&quot;distraction name&quot; required&gt;&lt;/div&gt;</span>
+<span class="sb">			&lt;div class=&quot;form-group&quot;&gt;&lt;label for=&quot;ddur&quot;&gt;Distraction duration (seconds):&lt;/label&gt;</span>
+<span class="sb">			&lt;input type=&quot;number&quot; id=&quot;ddur&quot; name=&quot;ddur&quot; value=&quot;60&quot; min=&quot;0&quot; max=&quot;100&quot; required&gt;&lt;/div&gt;</span>
+<span class="sb">			&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; class=&quot;btn&quot; style=&quot;width: 100%;&quot;&gt;&lt;/form&gt;`</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">expire</span><span class="p">,</span><span class="w"> </span><span class="nx">timerText</span><span class="p">[</span><span class="mf">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span><span class="w"> </span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;focus&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;div class=&quot;inner&quot;&gt;&lt;p&gt;No focus timer active&lt;/p&gt;&lt;/div&gt;`</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>sends alert when current timer has expired</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">expire</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Timer has expired!&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/focusComplete/false&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">completeTimers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{{comTimers}}&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="k">for</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">t</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">t</span><span class="o">&lt;</span><span class="nx">completeTimers</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">t</span><span class="o">++</span><span class="p">){</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">timerText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">completeTimers</span><span class="p">[</span><span class="nx">t</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">timerText</span><span class="p">[</span><span class="mf">3</span><span class="p">].</span><span class="nx">substring</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">timerText</span><span class="p">[</span><span class="mf">3</span><span class="p">].</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">));</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">endTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">timerText</span><span class="p">[</span><span class="mf">3</span><span class="p">].</span><span class="nx">substring</span><span class="p">(</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">3</span><span class="p">].</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">+</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">timerText</span><span class="p">[</span><span class="mf">3</span><span class="p">].</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">));</span><span class="w"> </span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;stats&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span>
+<span class="w">		</span><span class="sb">`&lt;div class=&quot;inner&quot; style=&quot;margin-bottom: 12px;&quot;&gt;&lt;p&gt;&lt;strong&gt;Duration:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="si">}</span><span class="sb">s | &lt;strong&gt;Focus:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">2</span><span class="p">]</span><span class="si">}</span><span class="sb">% &lt;br&gt;&lt;strong&gt;Date:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">date</span><span class="si">}</span><span class="sb"> (</span><span class="si">${</span><span class="nx">endTime</span><span class="si">}</span><span class="sb">)&lt;/p&gt;</span>
+<span class="sb">		&lt;button onclick=&quot;removeTimer(&#39;</span><span class="si">${</span><span class="nx">timerText</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="si">}</span><span class="sb">&#39;)&quot; class=&quot;btn-secondary&quot; style=&quot;padding: 4px 10px; font-size: 0.8rem;&quot;&gt;Remove&lt;/button&gt;&lt;/div&gt;`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">goalText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{{curGoal}}&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="k">for</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">goalText</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">){</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">goalSplit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">goalText</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">);</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">goalID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">goalSplit</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="nx">goalID</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">){</span><span class="w"> </span>
+<span class="w">		</span><span class="k">break</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">begDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">goalSplit</span><span class="p">[</span><span class="mf">1</span><span class="p">];</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">endDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">goalSplit</span><span class="p">[</span><span class="mf">2</span><span class="p">];</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">focusPercent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">goalSplit</span><span class="p">[</span><span class="mf">3</span><span class="p">];</span>
+<span class="w">	</span>
+<span class="w">	</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;goal&quot;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;div class=&quot;inner&quot; style=&quot;margin-bottom: 12px;&quot;&gt;&lt;p&gt;&lt;strong&gt;Start:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">begDate</span><span class="si">}</span><span class="sb"> | &lt;strong&gt;End:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">endDate</span><span class="si">}</span><span class="sb">&lt;br&gt;&lt;strong&gt;Target Focus:&lt;/strong&gt; </span><span class="si">${</span><span class="nx">focusPercent</span><span class="si">}</span><span class="sb">%&lt;/p&gt;</span>
+<span class="sb">	 &lt;button onclick=&quot;removeGoal(&#39;</span><span class="si">${</span><span class="nx">goalID</span><span class="si">}</span><span class="sb">&#39;)&quot; class=&quot;btn-secondary&quot; style=&quot;padding: 4px 10px; font-size: 0.8rem;&quot;&gt;Remove&lt;/button&gt;&lt;/div&gt;`</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>removes specified completed timer from table</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">removeTimer</span><span class="p">(</span><span class="nx">timerName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/focusRemove/timer/&quot;</span><span class="o">+</span><span class="nx">timerName</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>removes specified goal from table</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">removeGoal</span><span class="p">(</span><span class="nx">goalName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/focusRemove/goal/&quot;</span><span class="o">+</span><span class="nx">goalName</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>validates that the break within the timer form is within the main timer&rsquo;s duration</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">validateForm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">timerForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">forms</span><span class="p">[</span><span class="s2">&quot;timer&quot;</span><span class="p">];</span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">tdur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">timerForm</span><span class="p">[</span><span class="s2">&quot;tdur&quot;</span><span class="p">].</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="nx">timerForm</span><span class="p">[</span><span class="s2">&quot;bstr&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="kd">let</span><span class="w"> </span><span class="nx">bstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">timerForm</span><span class="p">[</span><span class="s2">&quot;bstr&quot;</span><span class="p">].</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">		</span><span class="kd">let</span><span class="w"> </span><span class="nx">bdur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">timerForm</span><span class="p">[</span><span class="s2">&quot;bdur&quot;</span><span class="p">].</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="nx">tdur</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="nx">bstr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">bdur</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">			</span><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Break must be contained within timer&quot;</span><span class="p">);</span>
+<span class="w">			</span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">breakID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>creates new break within timer form</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">newBreak</span><span class="p">(){</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">focusForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;.forms-card&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">curForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusForm</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">curForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">curForm</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">curForm</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="s2">&quot;required&quot;</span><span class="p">)</span><span class="o">+</span><span class="mf">20</span><span class="p">);</span>
+<span class="w">	</span><span class="nx">focusForm</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">curForm</span><span class="w"> </span><span class="o">+</span><span class="sb">`&lt;div class=&quot;form-group&quot;&gt;&lt;label for=&quot;bstr&quot;&gt;Break start:&lt;/label&gt;</span>
+<span class="sb">									&lt;input type=&quot;number&quot; id=&quot;bstr&quot; name=&quot;bstr&quot; value=&quot;60&quot; min=&quot;0&quot; max=&quot;100&quot; required&gt;&lt;/div&gt;</span>
+<span class="sb">									&lt;div class=&quot;form-group&quot;&gt;&lt;label for=&quot;bdur&quot;&gt;Break duration:&lt;/label&gt;</span>
+<span class="sb">									&lt;input type=&quot;number&quot; id=&quot;bdur&quot; name=&quot;bdur&quot; value=&quot;60&quot; min=&quot;0&quot; max=&quot;100&quot; required&gt;&lt;/div&gt;</span>
+<span class="sb">									&lt;button type=&quot;button&quot; onclick=&quot;delBreak()&quot; class=&quot;btn-secondary&quot; style=&quot;margin-bottom: 12px; width: 100%;&quot;&gt;Delete Break&lt;/button&gt;</span>
+<span class="sb">									&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; class=&quot;btn&quot; style=&quot;width: 100%;&quot;&gt;`</span><span class="p">;</span>
+<span class="w">	</span><span class="nx">breakID</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>removes last break within timer form</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">delBreak</span><span class="p">(){</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">focusForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;.forms-card&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">curForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusForm</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">curForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">curForm</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">curForm</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="s2">&quot;&lt;div class=\&quot;form-group\&quot;&gt;&lt;label for=\&quot;bstr&quot;</span><span class="p">));</span>
+<span class="w">	</span><span class="nx">focusForm</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">curForm</span><span class="w"> </span><span class="o">+</span><span class="sb">`&lt;button type=&quot;button&quot; onclick=&quot;newBreak()&quot; class=&quot;btn-secondary&quot; style=&quot;margin-bottom: 12px; width: 100%;&quot;&gt;Add Break&lt;/button&gt;</span>
+<span class="sb">									&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; class=&quot;btn&quot; style=&quot;width: 100%;&quot;&gt;`</span><span class="p">;</span><span class="w"> </span>
+<span class="w">	</span><span class="nx">breakID</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>force stops current active timer</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kd">function</span><span class="w"> </span><span class="nx">forceStop</span><span class="p">(){</span>
+<span class="w">	</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/focusComplete/true&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
