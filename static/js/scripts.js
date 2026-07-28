@@ -21,7 +21,6 @@ function getTabs(name, usersOnly, boldTab){
 		if(usersOnly == "y" || usersOnly == "b")
 		{
 			addTab(boldTab, "focus",    "Focus")
-			addTab(boldTab, "goals",    "Goals")
 			addTab(boldTab, "stats",    "Stats")
 			addTab(boldTab, "logout",   "Logout")
 			addTab(boldTab, "pwchange", "Password Change")
