@@ -4,17 +4,23 @@
 
 <table><tr></tr></table>
 
-<table class="graphs"><tr>
-<td class="graphs" style="max-width:50%">
-	<canvas id="graphDur" width="800" height="400"></canvas>
-</td>
-<td class="graphs" style="max-width:50%;">
-	<canvas id="graphPer" width="800" height="400"></canvas>
-</td>
+<table class="graphs">
+<tr>
+	<td class="graphs" style="max-width:50%">
+		<canvas id="graphDur" width="800" height="400"></canvas>
+	</td>
+	<td class="graphs" style="max-width:50%;">
+		<canvas id="graphPer" width="800" height="400"></canvas>
+	</td>
+</tr>
+<tr>
+	<td class="graphs" style="max-width:50%;">
+		<canvas id="graphGol" width="800" height="400"></canvas>
+	</td>
 </tr></table>
 
 <script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">//loads the graphing functions from external chart.js</script>
 <script>
 	getTabs('{{name|tojson}}', "b", "Stats")
 
@@ -31,6 +37,20 @@
 		percs.push(timerParts[2]);
 		focus.push(timerParts[1]*timerParts[2]/100);
 	}
+	
+	let goalText  = "{{curGoal}}".split(";");
+	let goal_names   = [];
+	let start_dates  = [];
+	let end_dates    = [];
+	let target_percs = [];
+	for(let t=0; t<goalText.length-1; t++) {
+		let goalParts = goalText[t].split(",");
+		goal_names.push("");
+		start_dates.push(goalParts[1]);
+		end_dates.push(goalParts[2]);
+		target_percs.push(goalParts[3]);
+	}
+	
 	const ctxD = document.getElementById('graphDur');
 	const chartDur = new Chart(ctxD, {
 		type: 'line',
@@ -123,6 +143,55 @@
 				title: {
 					display: true,
 					text: 'Focus Timers',
+					color: '#111',
+					font: {
+						family: 'Helvetica',
+						size: 32,
+						weight: 'bold',
+						lineHeight: 1.2,
+					}
+				}
+			}
+		}
+	});
+	
+	const ctxG = document.getElementById('graphGol');
+	const chartGol = new Chart(ctxG, {
+		type: 'line',
+		data: {
+			labels: goal_names,
+			datasets: [{
+				label: 'Goal Percentage',
+				backgroundColor: 'rgba(127, 255, 127, 0.5)',
+				borderColor: 'rgb(127, 255, 127)',
+				data: target_percs,
+				pointStyle: false,
+				borderWidth: 5,
+				fill: true
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+					min: 0,
+					max: 100,
+					title: {
+						display: true,
+						text: 'percent',
+						color: 'rgb(127, 127, 127)',
+						font: {
+							family: 'Helvetica',
+							size: 20,
+							lineHeight: 1.2,
+						},
+					},
+				}
+			},
+			plugins: {
+				title: {
+					display: true,
+					text: 'Goals',
 					color: '#111',
 					font: {
 						family: 'Helvetica',
