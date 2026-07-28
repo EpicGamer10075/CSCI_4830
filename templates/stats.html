@@ -1,0 +1,137 @@
+<head>
+   <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<table><tr></tr></table>
+
+<table class="graphs"><tr>
+<td class="graphs" style="max-width:50%">
+	<canvas id="graphDur" width="800" height="400"></canvas>
+</td>
+<td class="graphs" style="max-width:50%;">
+	<canvas id="graphPer" width="800" height="400"></canvas>
+</td>
+</tr></table>
+
+<script type="text/javascript" src="/static/js/scripts.js">//loads the functions from scripts.js</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+	getTabs('{{name|tojson}}', "b", "Stats")
+
+	let completeTimers = "{{comTimers}}".split(";");
+	let names = [];
+	let durs  = [];
+	let percs = [];
+	let focus = [];
+	for(let t=0; t<completeTimers.length-1; t++) {
+		let timerParts = completeTimers[t].split(",");
+		//names.push(timerParts[0]); deprecated after names became IDs
+		names.push("");
+		durs.push(timerParts[1]);
+		percs.push(timerParts[2]);
+		focus.push(timerParts[1]*timerParts[2]/100);
+	}
+	const ctxD = document.getElementById('graphDur');
+	const chartDur = new Chart(ctxD, {
+		type: 'line',
+		data: {
+			labels: names,
+			datasets: [{
+				label: 'Focus Amount',
+				backgroundColor: 'rgba(255, 127, 127, 0.5)',
+				borderColor: 'rgb(255, 127, 127)',
+				data: focus,
+				pointStyle: false,
+				borderWidth: 5,
+				fill: true
+			},{
+				label: 'Duration',
+				backgroundColor: 'rgba(91, 127, 255, 0.5)',
+				borderColor: 'rgb(91, 127, 255)',
+				data: durs,
+				pointStyle: false,
+				borderWidth: 5,
+				fill: true
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+					title: {
+						display: true,
+						text: 'seconds',
+						color: 'rgb(127, 127, 127)',
+						font: {
+							family: 'Helvetica',
+							size: 20,
+							lineHeight: 1.2,
+						},
+					},
+				}
+			},
+			plugins: {
+				title: {
+					display: true,
+					text: 'Focus Timers',
+					color: '#111',
+					font: {
+						family: 'Helvetica',
+						size: 32,
+						weight: 'bold',
+						lineHeight: 1.2,
+					}
+				}
+			}
+		}
+	});
+	
+	const ctxP = document.getElementById('graphPer');
+	const chartPer = new Chart(ctxP, {
+		type: 'line',
+		data: {
+			labels: names,
+			datasets: [{
+				label: 'Focus Percentage',
+				backgroundColor: 'rgba(255, 127, 127, 0.5)',
+				borderColor: 'rgb(255, 127, 127)',
+				data: percs,
+				pointStyle: false,
+				borderWidth: 5,
+				fill: true
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true,
+					min: 0,
+					max: 100,
+					title: {
+						display: true,
+						text: 'percent',
+						color: 'rgb(127, 127, 127)',
+						font: {
+							family: 'Helvetica',
+							size: 20,
+							lineHeight: 1.2,
+						},
+					},
+				}
+			},
+			plugins: {
+				title: {
+					display: true,
+					text: 'Focus Timers',
+					color: '#111',
+					font: {
+						family: 'Helvetica',
+						size: 32,
+						weight: 'bold',
+						lineHeight: 1.2,
+					}
+				}
+			}
+		}
+	});
+</script>
