@@ -43,6 +43,7 @@ mydb.close() #closes the database thread
 #################################################################
 # START User_Input
 #################################################################
+
 def receiveSignal(signalNumber, frame): #detects when SIGILL (crtl+C) is triggered
     #print('Received:', signalNumber)
     global threadEnd
@@ -62,7 +63,7 @@ signal.signal(signal.SIGINT, receiveSignal)
 tester = "init" #use current render_template to change page without reload (DOESN'T WORK)
 threadEnd = False #flag to end inputMonitor thread
 durAFK = 0.0 #duration without input, in seconds
-thresholdAFK = 5*4.0 #normally 5*60
+thresholdAFK = 5*60.0 #normally 5*60
 
 def getAFK(): #spins in place, detecting if user has gone AFK
     global tester
@@ -78,17 +79,12 @@ def getAFK(): #spins in place, detecting if user has gone AFK
     return
 
 def on_key_press(key):
-    '''try:
-        print('alphanumeric key {0} pressed'.format(key.char))
-    except AttributeError:
-        print('special key {0} pressed'.format(key))'''
     global durAFK
     durAFK = 0.0 #reset to 0 when key pressed
 listenerK = pynput.keyboard.Listener(on_press=on_key_press)
 listenerK.start()
 
 def on_mouse():
-    #print("Mouse")
     global durAFK
     durAFK = 0.0 #reset to 0 when mouse manipulated (LClick, RC, MC, Scroll, Move)
 listenerM = pynput.mouse.Listener(
@@ -104,25 +100,14 @@ inputMonitor.start() #starts inputMonitor as thread with function getAFK()
 def process_data():
     global durAFK
     return str(durAFK > thresholdAFK)
-
+'''
+@app.route('/process-data', methods=['POST']) #not viewable webpage, just used for fetch requests
+def process_data():
+    return str(False)'''
 #################################################################
 # END User_Input
 #################################################################
 
-
-def getUsername():
-    mydb = sqlite3.connect("doom.db")
-    cur = mydb.cursor()
-    res = cur.execute(f"SELECT username, password FROM current")
-    name = res.fetchone()
-    #print(f"Name: {name!r}")
-    username = name[0]
-    #print("Username:", username)
-    
-    mydb.commit()
-    mydb.close()
-    
-    return username
 
 @app.route('/')
 def home():    
@@ -309,6 +294,27 @@ def focusRemove(elementType, elementID):
     mydb.commit()
     mydb.close()
     return render_template('focus.html', name=username, curTimer=timerText, comTimers=completeTimers, curGoal=goalText, curDist=distText, redir=1)
+
+@app.route('/stats')
+def stats():
+    username = getUsername()
+    completeTimers = setComplete()
+    return render_template('stats.html', name=username, comTimers=completeTimers)
+
+
+def getUsername():
+    mydb = sqlite3.connect("doom.db")
+    cur = mydb.cursor()
+    res = cur.execute(f"SELECT username, password FROM current")
+    name = res.fetchone()
+    #print(f"Name: {name!r}")
+    username = name[0]
+    #print("Username:", username)
+    
+    mydb.commit()
+    mydb.close()
+    
+    return username
 
 def updateTime(): #updates time in active_timers table, and returns timerText to give to js
     mydb = sqlite3.connect("doom.db")
@@ -526,11 +532,9 @@ To-Do:
         [X] Complete
         [X] Goal
     Comment out stuff related to later Milestones:
-        [X] Break
-        [X] Distraction
-        [X] AFK
+        Break
+        Distraction
+        AFK (not included yet)
         Stats (not included yet)
-        Reminders
-        Polish
 [X] Add button to remove focus goal
 '''
