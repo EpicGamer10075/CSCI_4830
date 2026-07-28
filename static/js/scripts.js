@@ -1,19 +1,12 @@
-function test(){
-	document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../'   >TEST</a></td>";
-}
-
 //name is logged in username
 //usersOnly is whether the current page is meant for logged in users or not ["y", "n", "b"]
 //boldTab is the current page to be bolded in tabs
 function getTabs(name, usersOnly, boldTab){
-	addTab(boldTab, "", "Home");
+	addTab(boldTab, "", "Home")
 	if(name == "\"Logged Out\"") //render logged out links
 	{
 		if(usersOnly == "n" || usersOnly == "b")
 		{
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../register'>Register</a></td>";
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../login'   >Login</a></td>";
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../pwreset' >Password Reset</a></td>";
 			addTab(boldTab, "register", "Register")
 			addTab(boldTab, "login",    "Login")
 			addTab(boldTab, "pwreset",  "Password Reset")
@@ -27,10 +20,8 @@ function getTabs(name, usersOnly, boldTab){
 	{
 		if(usersOnly == "y" || usersOnly == "b")
 		{
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../focus'   >Focus</a></td>";
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../logout'  >Logout</a></td>";
-			//document.querySelector("tr").innerHTML += "<td><a class=\"header\" href='../pwchange'>Password Change</a></td>";
 			addTab(boldTab, "focus",    "Focus")
+			addTab(boldTab, "stats",    "Stats")
 			addTab(boldTab, "logout",   "Logout")
 			addTab(boldTab, "pwchange", "Password Change")
 		}
@@ -49,4 +40,63 @@ function addTab(curPage, toPage, pageName){
 	document.querySelector("tr").innerHTML += `<td${tdPart}><a class=\"header${classPart}\" href='../${toPage}'>${pageName}</a></td>`;
 }
 
+function inputChecker(){ //general function to start getAFK loop
+	setTimeout(getAFK, 0);
+}
+async function getAFK(){ //launched asynchronous aka multithreaded
+	while(true){ //loops, fetching data from doom.py each second
+		fetch('/process-data', { //sends request to doom.py
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(response => response.text())
+		.then(result => { //gets result, and uses that here
+			//console.log(result);
+			//document.querySelector("p").innerHTML += result;
+			if(result=="True"){
+				alert("AFK!");
+				//createReminderBanner();
+				showReminderBanner("AFK!")
+			} //if AFK, send alert declaring so
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+		await sleep(1000);
+	}
+}
+function sleep(time) { //sleeps for a specified amount of millisecons
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
 
+
+/**
+ * banner.js
+ *
+ * Displays a reminder banner when a check-in reminder happens.
+ * The banner stays on the page until the user dismisses it.
+ */
+
+/**
+ * Shows the reminder banner.
+ *
+ * @param {string} message The reminder message to display.
+ */
+function showReminderBanner(message) {
+    document.getElementById("reminderBannerText").textContent = message;
+
+    document
+        .getElementById("reminderBanner")
+        .classList.remove("hidden");
+}
+
+/**
+ * Hides the reminder banner.
+ */
+function hideReminderBanner() {
+    const banner = document.getElementById("reminderBanner");
+
+    if (banner) {
+        banner.classList.add("hidden");
+    }
+}
