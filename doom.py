@@ -299,7 +299,8 @@ def focusRemove(elementType, elementID):
 def stats():
     username = getUsername()
     completeTimers = setComplete()
-    return render_template('stats.html', name=username, comTimers=completeTimers)
+    goalText = setGoal()
+    return render_template('stats.html', name=username, comTimers=completeTimers, curGoal=goalText)
 
 
 def getUsername():
