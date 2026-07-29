@@ -153,7 +153,20 @@
         let endDate = goalSplit[2]; 
         let focusPercent = goalSplit[3];
         
-        document.getElementById("goal").innerHTML += `<div class="inner" style="margin-bottom: 12px;"><p><strong>Start:</strong> ${begDate} | <strong>End:</strong> ${endDate}<br><strong>Target Focus:</strong> ${focusPercent}%</p>
+        let totalFocus = 0.0; //amount of time focused
+		let totalTimer = 0.0; //amount of time total
+        for(let t=0; t<completeTimers.length-1; t++){
+			let timerText = completeTimers[t].split(",");
+			let date = timerText[3].substring(0, timerText[3].indexOf(" ")); //extracts date (YYYY-MM-DD)
+			let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); //extracts endTime (hr:min)
+			if(begDate != "" && compareDates(begDate, endDate, date)){ //if goal exists and current timer within goal dates
+				totalFocus += Number(timerText[1]) * Number(timerText[2]) / 100.0 //add current complete timer's duration to totalFocus
+				totalTimer += Number(timerText[1]) //add current complete timer's duration to totalTimer
+			}
+        }
+
+        document.getElementById("goal").innerHTML += `<div class="inner" style="margin-bottom: 12px;"><p><strong>Start:</strong> ${begDate} | <strong>End:</strong> ${endDate}<br>
+         <strong>Target Focus:</strong> ${focusPercent}% | <strong>Actual Focus:</strong> ${(totalFocus/totalTimer*100).toFixed(2)}%</p>
          <button onclick="removeGoal('${goalID}')" class="btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;">Remove</button></div>`;
     }
 
@@ -163,6 +176,14 @@
     function removeGoal(goalName) { 
         location.replace("/focusRemove/goal/"+goalName); 
     }
+    function compareDates(start, end, within){ //returns if within is inside of start and end dates
+		let startParts = start.split("-"); //YYYY-MM-DD -> [YYYY, MM, DD]
+		let endParts = end.split("-");
+		let withinParts = within.split("-");
+		return (Number(startParts[0]) <= Number(withinParts[0]) && Number(withinParts[0]) <= Number(endParts[0]) &&
+				Number(startParts[1]) <= Number(withinParts[1]) && Number(withinParts[1]) <= Number(endParts[1]) &&
+				Number(startParts[2]) <= Number(withinParts[2]) && Number(withinParts[2]) <  Number(endParts[2]))
+	}
 
     function validateForm() { 
         let timerForm = document.forms["timer"];
