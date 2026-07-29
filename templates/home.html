@@ -42,4 +42,17 @@
 <script type="text/javascript" src="/static/js/scripts.js"></script>
 <script>
    getTabs('{{name|tojson}}', "b", "Home")
+
+   if("{{name}}" == "Logged Out") {
+      document.querySelector("div.outer").innerHTML = `
+         <div class="card" style="background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);">
+            <h1>Welcome!</h1>
+            <p>Your workspace for deep work and tracking distraction-free focus goals.</p>
+            <div style="margin-top: 16px;">
+               <a href="/register" class="btn" style="text-decoration: none; display: inline-block; margin-right: 10px;">Register</a>
+               <a href="/login"    class="btn" style="text-decoration: none; display: inline-block; margin-right: 10px;">Login</a>
+            </div>
+         </div>
+      `;
+   }
 </script>
