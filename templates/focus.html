@@ -133,7 +133,7 @@
     }
     
     let completeTimers = '{{comTimers}}'.split(";"); 
-    for(let t=0; t<completeTimers.length-1; t++){
+    for(let t=completeTimers.length-2; t>=0; t--){ //goes through all completed timers in reverse order (don't ask why it starts and length-2, IDK why)
         let timerText = completeTimers[t].split(",");
         let date = timerText[3].substring(0, timerText[3].indexOf(" ")); 
         let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); 
@@ -143,7 +143,7 @@
     }
     
     let goalText = '{{curGoal}}'.split(";"); 
-    for(let i=0; i<goalText.length - 1; i++){ 
+    for(let i=goalText.length-2; i>=0; i--){ 
         let goalSplit = goalText[i].split(",");
         let goalID = goalSplit[0];
         if(goalID == ""){ 
