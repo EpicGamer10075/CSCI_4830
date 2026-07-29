@@ -43,12 +43,34 @@
 	let start_dates  = [];
 	let end_dates    = [];
 	let target_percs = [];
+	let actual_percs = []; //calculated using same method as from focus.html
 	for(let t=0; t<goalText.length-1; t++) {
 		let goalParts = goalText[t].split(",");
 		goal_names.push("");
 		start_dates.push(goalParts[1]);
 		end_dates.push(goalParts[2]);
 		target_percs.push(goalParts[3]);
+
+		let totalFocus = 0.0; //amount of time focused
+		let totalTimer = 0.0; //amount of time total
+        for(let t=0; t<completeTimers.length-1; t++){
+			let timerText = completeTimers[t].split(",");
+			let date = timerText[3].substring(0, timerText[3].indexOf(" ")); //extracts date (YYYY-MM-DD)
+			let endTime = timerText[3].substring(timerText[3].indexOf(" ")+1, timerText[3].lastIndexOf(":")); //extracts endTime (hr:min)
+			if(goalParts[1] != "" && compareDates(goalParts[1], goalParts[2], date)){ //if goal exists and current timer within goal dates
+				totalFocus += Number(timerText[1]) * Number(timerText[2]) / 100.0 //add current complete timer's duration to totalFocus
+				totalTimer += Number(timerText[1]) //add current complete timer's duration to totalTimer
+			}
+        }
+		actual_percs.push(totalFocus/totalTimer*100);
+	}
+	function compareDates(start, end, within){ //checks if within is inside of start and end dates, and returns boolean
+		let startParts = start.split("-"); //YYYY-MM-DD -> [YYYY, MM, DD]
+		let endParts = end.split("-");
+		let withinParts = within.split("-");
+		return (Number(startParts[0]) <= Number(withinParts[0]) && Number(withinParts[0]) <= Number(endParts[0]) &&
+				Number(startParts[1]) <= Number(withinParts[1]) && Number(withinParts[1]) <= Number(endParts[1]) &&
+				Number(startParts[2]) <= Number(withinParts[2]) && Number(withinParts[2]) <  Number(endParts[2]))
 	}
 	
 	const ctxD = document.getElementById('graphDur');
@@ -161,7 +183,15 @@
 		data: {
 			labels: goal_names,
 			datasets: [{
-				label: 'Goal Percentage',
+				label: 'Actual Percentage',
+				backgroundColor: 'rgba(127, 127, 255, 0.5)',
+				borderColor: 'rgb(127, 127, 255)',
+				data: actual_percs,
+				pointStyle: false,
+				borderWidth: 5,
+				fill: true
+			},{
+				label: 'Target Percentage',
 				backgroundColor: 'rgba(127, 255, 127, 0.5)',
 				borderColor: 'rgb(127, 255, 127)',
 				data: target_percs,
